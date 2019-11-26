@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 // # # # # # # #  CONTAINERS # # # # # # #
 import HomeScreen from "./containers/HomeScreen";
-import ProfileScreen from "./containers/ProfileScreen";
+import RoomScreen from "./containers/RoomScreen";
 import SignInScreen from "./containers/SignInScreen";
 import SettingsScreen from "./containers/SettingsScreen";
 
@@ -38,7 +38,8 @@ export default function App() {
       // screen will be unmounted and thrown away.
       setIsLoading(false);
 
-      setUserToken(userToken);
+      // setUserToken(userToken);
+      setUserToken(null);
     };
 
     bootstrapAsync();
@@ -87,7 +88,7 @@ export default function App() {
                       <Stack.Screen
                         name="Home"
                         options={{
-                          title: "My App",
+                          title: "Room List",
                           headerStyle: { backgroundColor: "red" },
                           headerTitleStyle: { color: "white" }
                         }}
@@ -96,10 +97,10 @@ export default function App() {
                       </Stack.Screen>
 
                       <Stack.Screen
-                        name="Profile"
-                        options={{ title: "User Profile" }}
+                        name="Room"
+                        options={{ title: "Oh le bel Appart" }}
                       >
-                        {() => <ProfileScreen />}
+                        {() => <RoomScreen />}
                       </Stack.Screen>
                     </Stack.Navigator>
                   )}

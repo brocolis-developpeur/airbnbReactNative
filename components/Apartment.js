@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigation } from "@react-navigation/core";
+
 import {
   StyleSheet,
   Text,
@@ -10,35 +12,50 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function Apartment() {
+export default function Apartment(props) {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.apartmentcontainer}>
+      <Button
+        title="GO to Appart"
+        onPress={() => {
+          navigation.navigate("Room", { roomId: props._id });
+        }}
+      />
       <View>
         <Image
           source={{
-            uri:
-              "https://a2.muscache.com/im/pictures/78258559/75143e16_original.jpg"
+            uri: props.photos[0]
           }}
-          style={{ height: 250, width: "100%", margin: 0 }}
+          style={{ height: 250, width: "100%" }}
           resizeMode="contain"
         />
-        <Text style={styles.price}>10 EUROS</Text>
+        <Text style={styles.price}>{props.price}</Text>
       </View>
-      <Text>Logement Entier, Gambetta</Text>
-      <View style={styles.containerRow}>
-        {/* <View> */}
-        <AntDesign name="star" size={32} color="yellow" />
-        <AntDesign name="star" size={32} color="yellow" />
-        <AntDesign name="star" size={32} color="yellow" />
+
+      <View style={{ flexDirection: "row" }}>
+        <View style={{ flex: 1 }}>
+          <Text>{props.title}</Text>
+          <View style={styles.starContainer}>
+            <AntDesign name="star" size={32} color="yellow" />
+            <AntDesign name="star" size={32} color="yellow" />
+            <AntDesign name="star" size={32} color="yellow" />
+          </View>
+        </View>
+        <Image
+          source={{
+            uri: props.user.account.photos[0]
+          }}
+          style={{ height: 100, width: 100 }}
+          resizeMode="contain"
+        />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  body: {
-    backgroundColor: "grey"
-  },
   price: {
     backgroundColor: "brown",
     color: "yellow",
@@ -48,7 +65,11 @@ const styles = StyleSheet.create({
     top: 200
   },
   apartmentcontainer: {
-    backgroundColor: "black",
+    backgroundColor: "grey",
     margin: 20
+  },
+
+  starContainer: {
+    flexDirection: "row"
   }
 });
