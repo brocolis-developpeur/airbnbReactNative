@@ -4,6 +4,7 @@ import { NavigationNativeContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import colors from "./colors";
 
 // # # # # # # #  CONTAINERS # # # # # # #
 import HomeScreen from "./containers/HomeScreen";
@@ -38,8 +39,8 @@ export default function App() {
       // screen will be unmounted and thrown away.
       setIsLoading(false);
 
-      // setUserToken(userToken);
-      setUserToken(null);
+      setUserToken(userToken);
+      // setUserToken(null);
     };
 
     bootstrapAsync();
@@ -88,9 +89,9 @@ export default function App() {
                       <Stack.Screen
                         name="Home"
                         options={{
-                          title: "Room List",
-                          headerStyle: { backgroundColor: "red" },
-                          headerTitleStyle: { color: "white" }
+                          title: "MonAirBnB",
+                          headerStyle: { backgroundColor: colors.red },
+                          headerTitleStyle: { color: "white", fontSize: 25 }
                         }}
                       >
                         {() => <HomeScreen />}
@@ -98,7 +99,11 @@ export default function App() {
 
                       <Stack.Screen
                         name="Room"
-                        options={{ title: "Oh le bel Appart" }}
+                        options={{
+                          title: "Oh le bel Appart",
+                          headerStyle: { backgroundColor: colors.red },
+                          headerTitleStyle: { color: "white", fontSize: 25 }
+                        }}
                       >
                         {() => <RoomScreen />}
                       </Stack.Screen>

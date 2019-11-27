@@ -16,38 +16,37 @@ export default function Apartment(props) {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.apartmentcontainer}>
-      <Button
-        title="GO to Appart"
-        onPress={() => {
-          navigation.navigate("Room", { roomId: props._id });
-        }}
-      />
+    // <View style={{ margin: 20 }}>
+    <View>
       <View>
         <Image
           source={{
             uri: props.photos[0]
           }}
-          style={{ height: 250, width: "100%" }}
-          resizeMode="contain"
+          style={styles.image}
+          resizeMode="cover"
         />
-        <Text style={styles.price}>{props.price}</Text>
+        <Text style={styles.price}>{props.price + "€"}</Text>
       </View>
-
-      <View style={{ flexDirection: "row" }}>
+      <View
+        style={[
+          styles.contenair2,
+          { paddingHorizontal: props.RoomScreen ? 20 : 0 }
+        ]}
+      >
         <View style={{ flex: 1 }}>
           <Text>{props.title}</Text>
           <View style={styles.starContainer}>
-            <AntDesign name="star" size={32} color="yellow" />
-            <AntDesign name="star" size={32} color="yellow" />
-            <AntDesign name="star" size={32} color="yellow" />
+            <AntDesign name="star" size={32} color="#FFB401" />
+            <AntDesign name="star" size={32} color="#FFB401" />
+            <AntDesign name="star" size={32} color="#FFB401" />
           </View>
         </View>
         <Image
           source={{
             uri: props.user.account.photos[0]
           }}
-          style={{ height: 100, width: 100 }}
+          style={styles.avatar}
           resizeMode="contain"
         />
       </View>
@@ -57,19 +56,25 @@ export default function Apartment(props) {
 
 const styles = StyleSheet.create({
   price: {
-    backgroundColor: "brown",
-    color: "yellow",
-    width: 50,
+    backgroundColor: "black",
+    color: "white",
+    fontSize: 30,
+    justifyContent: "center",
+    textAlign: "center",
+    padding: 10,
     position: "absolute",
-    left: 200,
-    top: 200
-  },
-  apartmentcontainer: {
-    backgroundColor: "grey",
-    margin: 20
+    left: 10,
+    top: 180
   },
 
   starContainer: {
     flexDirection: "row"
+  },
+  image: { height: 250, width: "100%" },
+  avatar: { height: 100, width: 100, borderRadius: 50 },
+
+  contenair2: {
+    flexDirection: "row",
+    paddingVertical: 20
   }
 });

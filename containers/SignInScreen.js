@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   Button,
@@ -7,29 +7,36 @@ import {
   View,
   Platform,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import Constants from "expo-constants";
 import colors from "../colors";
 import { Ionicons } from "@expo/vector-icons";
 
-const loginAttempt = async (email, password, setToken) => {
+const loginAttempt = async (email, password, setToken, setError) => {
   try {
     const response = await axios.post(
       "https://airbnb-api.now.sh/api/user/log_in",
       {
-        email: email,
-        password: password
+        email,
+        password
+        // email: email,
+        // password: password
       }
     );
     const token = response.data.token;
     setToken(token);
   } catch (e) {
-    alert(e.message);
+    alert("login fail");
+    setError(true);
   }
 };
 
 export default function SignInScreen({ setToken }) {
+  const [email, setEmail] = useState("arno@airbnb-api.com");
+  const [password, setPassword] = useState("password01");
+  const [error, setError] = useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.center}>
@@ -48,29 +55,43 @@ export default function SignInScreen({ setToken }) {
             style={styles.marginVertical}
           />
         )}
+
         <Text style={{ ...styles.welcome }}>Welcome</Text>
+        {/* <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}> */}
         <View style={styles.hr}>
           <TextInput
             placeholder="name@airbnb-api.com"
             placeholderTextColor="white"
-            style={styles.textInput}
+            style={[styles.textInput, { backgroundColor: error && "red" }]}
             selectionColor="white"
+            onChangeText={text => {
+              setEmail(text);
+            }}
           />
         </View>
+
         <View style={styles.hr}>
           <TextInput
             placeholder="Password"
             placeholderTextColor="white"
-            style={styles.textInput}
+            style={[
+              styles.textInput,
+              { backgroundColor: error ? "red" : colors.red }
+            ]}
             secureTextEntry={true}
             selectionColor="white"
+            onChangeText={text => {
+              setPassword(text);
+            }}
           />
         </View>
+        {/* </KeyboardAvoidingView> */}
+
         <TouchableOpacity
           style={styles.btn}
           mode="contained"
           onPress={async () => {
-            loginAttempt("arno@airbnb-api.com", "password01", setToken);
+            loginAttempt(email, password, setToken, setError);
           }}
         >
           <Text style={styles.btnText}>Sign in</Text>
