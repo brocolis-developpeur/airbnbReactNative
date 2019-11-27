@@ -62,7 +62,7 @@ export default function SignInScreen({ setToken }) {
           <TextInput
             placeholder="name@airbnb-api.com"
             placeholderTextColor="white"
-            style={[styles.textInput, { backgroundColor: error && "red" }]}
+            style={[styles.textInput, { backgroundColor: "red" }]}
             selectionColor="white"
             onChangeText={text => {
               setEmail(text);
@@ -74,10 +74,7 @@ export default function SignInScreen({ setToken }) {
           <TextInput
             placeholder="Password"
             placeholderTextColor="white"
-            style={[
-              styles.textInput,
-              { backgroundColor: error ? "red" : colors.red }
-            ]}
+            style={[styles.textInput, { backgroundColor: "red" }]}
             secureTextEntry={true}
             selectionColor="white"
             onChangeText={text => {
