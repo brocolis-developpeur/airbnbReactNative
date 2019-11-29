@@ -16,57 +16,61 @@ import Constants from "expo-constants";
 import colors from "../colors";
 import { Ionicons } from "@expo/vector-icons";
 
-const loginAttempt = async (email, password, setToken, setError) => {
+const signUpAttempt = async (
+  email,
+  password,
+  username,
+  name,
+  description,
+  setToken,
+  setError
+) => {
   try {
     const response = await axios.post(
-      "https://airbnb-api.herokuapp.com/api/user/log_in",
+      "https://airbnb-api.herokuapp.com/api/user/sign_up",
       {
         email,
-        password
+        password,
+        username,
+        name,
+        description
         // email: email,
         // password: password
       }
     );
-    const token = response.data.token;
-    const id = response.data._id;
-    setToken(token, id);
+    alert("you made it!");
+    setToken(response.data.token, response.data._id);
   } catch (e) {
     alert("login fail");
     setError(true);
   }
 };
 
-export default function SignInScreen({ setToken }) {
+export default function SignUpScreen({ setToken }) {
   const navigation = useNavigation();
 
-  const [email, setEmail] = useState("arno@airbnb-api.com");
-  const [password, setPassword] = useState("password01");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("brocoli");
+  const [name, setName] = useState("Mr Mc Lovin");
+  const [description, setDescription] = useState("I'm Awesome");
   const [error, setError] = useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.center}>
-        {Platform.OS === "ios" ? (
-          <Ionicons
-            name="ios-home"
-            size={100}
-            color="white"
-            style={styles.marginVertical}
-          />
-        ) : (
-          <Ionicons
-            name="md-home"
-            size={100}
-            color="white"
-            style={styles.marginVertical}
-          />
-        )}
+        <Ionicons
+          name="md-create"
+          size={100}
+          color="white"
+          style={styles.marginVertical}
+        />
 
-        <Text style={{ ...styles.welcome }}>Welcome</Text>
-        {/* <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}> */}
+        <Text style={{ ...styles.welcome }}>Sign Up</Text>
         <View style={styles.hr}>
           <TextInput
-            placeholder="name@airbnb-api.com"
+            placeholder="x@y.z"
             placeholderTextColor="white"
+            autoCapitalize="none"
             style={[styles.textInput]}
             selectionColor="white"
             onChangeText={text => {
@@ -77,13 +81,49 @@ export default function SignInScreen({ setToken }) {
 
         <View style={styles.hr}>
           <TextInput
-            placeholder="Password"
+            placeholder="qwerty"
             placeholderTextColor="white"
-            style={[styles.textInput]}
+            style={styles.textInput}
+            autoCapitalize="none"
             // secureTextEntry={true}
             selectionColor="white"
             onChangeText={text => {
               setPassword(text);
+            }}
+          />
+        </View>
+        <View style={styles.hr}>
+          <TextInput
+            placeholder="brocoli"
+            placeholderTextColor="white"
+            autoCapitalize="none"
+            style={[styles.textInput]}
+            selectionColor="white"
+            onChangeText={text => {
+              setUsername(text);
+            }}
+          />
+        </View>
+        <View style={styles.hr}>
+          <TextInput
+            placeholder="Mr McLovin"
+            placeholderTextColor="white"
+            autoCapitalize="none"
+            style={[styles.textInput]}
+            selectionColor="white"
+            onChangeText={text => {
+              setName(text);
+            }}
+          />
+        </View>
+        <View style={styles.hr}>
+          <TextInput
+            placeholder="I'm Awesome and blah blah"
+            placeholderTextColor="white"
+            style={[styles.textInput]}
+            selectionColor="white"
+            onChangeText={text => {
+              setDescription(text);
             }}
           />
         </View>
@@ -92,19 +132,18 @@ export default function SignInScreen({ setToken }) {
           style={styles.btn}
           mode="contained"
           onPress={async () => {
-            loginAttempt(email, password, setToken, setError);
+            signUpAttempt(
+              email,
+              password,
+              username,
+              name,
+              description,
+              setToken,
+              setError
+            );
           }}
         >
           <Text style={styles.btnText}>Sign in</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.btn}
-          mode="contained"
-          onPress={async () => {
-            navigation.navigate("SignUp");
-          }}
-        >
-          <Text style={styles.btnText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -113,7 +152,7 @@ export default function SignInScreen({ setToken }) {
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: colors.red,
+    backgroundColor: "#E6BDB4",
     alignItems: "center",
     flex: 1
   },

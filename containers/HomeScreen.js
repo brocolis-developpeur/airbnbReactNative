@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/core";
-import {
-  ActivityIndicator,
-  Button,
-  Text,
-  View,
-  ScrollView,
-  FlatList,
-  TouchableOpacity
-} from "react-native";
-import Apartment from "../components/Apartment";
+import React, { useState } from "react";
+// import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+
+import { View, ActivityIndicator } from "react-native";
+import ListApartments from "../components/ListApartments";
+import ListMap from "../components/ListMap";
+import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 
+// const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
+
 const HomeScreen = () => {
-  const navigation = useNavigation();
   const [data, setData] = useState(null);
 
   //Fetch Datas on Load Only
@@ -22,9 +20,9 @@ const HomeScreen = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://airbnb-api.now.sh/api/room?city=paris"
+          "https://airbnb-api.herokuapp.com/api/room?city=paris"
         );
-        setData(response.data.rooms);
+        setData(response.data);
       } catch (e) {
         alert(e.message);
       }
@@ -33,39 +31,32 @@ const HomeScreen = () => {
     fetchData();
   }, []);
 
-  // Note : Flastlist Scroll tout seul
   return (
     <>
       {!data ? (
         <View style={{ flex: 1, justifyContent: "center" }}>
-          {/* Revoir pour centrer */}
           <ActivityIndicator size="large" color="red" />
         </View>
       ) : (
-        <View>
-          <FlatList
-            data={data}
-            keyExtractor={item => String(item._id)}
-            //Revoir il a mis return directement
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("Room", { roomId: item._id })
-                }
-              >
-                <View
-                  style={{
-                    margin: 20,
-                    borderBottomColor: "grey",
-                    borderBottomWidth: 1
-                  }}
-                >
-                  <Apartment {...item} />
-                </View>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
+        <Tab.Navigator
+          tabBarOptions={{
+            activeTintColor: "tomato",
+            inactiveTintColor: "gray",
+            activeBackgroundColor: "#EDEDED",
+            inactiveBackgroundColor: "red",
+            labelStyle: { fontSize: 15 },
+            tabStyle: { width: 130 },
+            style: { backgroundColor: "lightgray" },
+            indicatorStyle: { backgroundColor: "black" }
+          }}
+        >
+          <Tab.Screen name="Vue Liste">
+            {() => <ListApartments data={data.rooms} />}
+          </Tab.Screen>
+          <Tab.Screen name="Vue Carte">
+            {() => <ListMap data={data} />}
+          </Tab.Screen>
+        </Tab.Navigator>
       )}
     </>
   );
