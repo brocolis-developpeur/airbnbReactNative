@@ -24,7 +24,8 @@ const RoomScreen = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://airbnb-api.now.sh/api/room/" + params.roomId
+          // "https://airbnb-api.now.sh/api/room/" + params.roomId
+          "https://airbnb-api.herokuapp.com/api/room/" + params.roomId
         );
         setData(response.data);
       } catch (e) {
