@@ -1,8 +1,7 @@
-# react-navigation-starter
+![](demo/demo.gif)
 
-## Quick start
+## Description
 
-```bash
-npm install
-npm start
-```
+Simple clone of airbnb app.
+Made with react-native.
+Styling work is in progress.
